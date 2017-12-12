@@ -12,8 +12,8 @@ namespace SampleAppCore.Data.EF.Configurations
     {
         public override void Configure(EntityTypeBuilder<ProductTag> entity)
         {
-            entity.Property(x => x.TagId).HasMaxLength(255).IsRequired()
-                .HasColumnType("varchar(255)");
+            entity.Property(x => x.TagId).HasMaxLength(50).IsRequired()
+                .HasColumnType("varchar(50)");
         }
     }
 }

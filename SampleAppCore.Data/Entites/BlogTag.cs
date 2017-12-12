@@ -7,7 +7,7 @@ namespace SampleAppCore.Data.Entites
     public class BlogTag : DomainEntity<int>
     {
         public int BlogId { set; get; }
-
+        
         public string TagId { set; get; }
 
         [ForeignKey("BlogId")]

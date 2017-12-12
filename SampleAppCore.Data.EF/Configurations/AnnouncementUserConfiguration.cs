@@ -8,12 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SampleAppCore.Data.EF.Configurations
 {
-    public class TagConfiguration : DbEntityConfiguration<Tag>
+    public class AnnouncementUserConfiguration : DbEntityConfiguration<AnnouncementUser>
     {
-        public override void Configure(EntityTypeBuilder<Tag> entity)
+        public override void Configure(EntityTypeBuilder<AnnouncementUser> entity)
         {
-            entity.Property(x => x.Id).HasMaxLength(50).IsRequired()
-               .HasColumnType("varchar(50)");
+            entity.Property(c => c.Id).HasMaxLength(120).IsRequired();
         }
     }
 }

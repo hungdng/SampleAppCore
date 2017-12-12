@@ -15,7 +15,7 @@ namespace SampleAppCore.Data.Entites
     {
         public Bill() {}
 
-        public Bill(string customerId, string customerName, string customerAddress, string customerMoblie, string customerMessage, BillStatus billStatus, PaymentMethod paymentMethod, Status status)
+        public Bill(Guid customerId, string customerName, string customerAddress, string customerMoblie, string customerMessage, BillStatus billStatus, PaymentMethod paymentMethod, Status status)
         {
             CustomerId = customerId;
             CustomerName = customerName;
@@ -27,7 +27,7 @@ namespace SampleAppCore.Data.Entites
             Status = status;
         }
 
-        public Bill(int id, string customerId, string customerName, string customerAddress, string customerMoblie, string customerMessage, BillStatus billStatus, PaymentMethod paymentMethod, Status status)
+        public Bill(int id, Guid customerId, string customerName, string customerAddress, string customerMoblie, string customerMessage, BillStatus billStatus, PaymentMethod paymentMethod, Status status)
         {
             Id = id;
             CustomerId = customerId;
@@ -40,8 +40,7 @@ namespace SampleAppCore.Data.Entites
             Status = status;
         }
 
-        [StringLength(450)]
-        public string CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
         [Required]
         [MaxLength(256)]

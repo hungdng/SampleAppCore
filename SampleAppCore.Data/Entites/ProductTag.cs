@@ -11,8 +11,6 @@ namespace SampleAppCore.Data.Entites
     {
         public int ProductId { get; set; }
 
-        [StringLength(50)]
-        [Column(TypeName = "varchar")]
         public string TagId { set; get; }
 
         [ForeignKey("ProductId")]
