@@ -18,6 +18,9 @@ using SampleAppCore.Service.Interfaces;
 using SampleAppCore.Data.IRepositories;
 using SampleAppCore.Service.Implementation;
 using SampleAppCore.Data.EF.Repositories;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
+using SampleAppCore.Helpers;
 
 namespace SampleAppCore
 {
@@ -70,15 +73,25 @@ namespace SampleAppCore
 
             services.AddTransient<DbInitializer>();
 
-            services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
-            services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            // Repositories
+            services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddTransient<IFunctionRepository, FunctionRepository>();
+
+            // Services
+            services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            services.AddTransient<IFunctionService, FunctionService>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/sample-{Date}.txt");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -99,6 +112,9 @@ namespace SampleAppCore
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(name: "areaRoute",
+                    template: "{area:exists}/{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

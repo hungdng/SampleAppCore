@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAppCore", "SampleAppCore\SampleAppCore.csproj", "{E06F9237-0FE0-4461-A250-BC35B41E8505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppCore", "SampleAppCore\SampleAppCore.csproj", "{E06F9237-0FE0-4461-A250-BC35B41E8505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAppCore.Utilities", "SampleAppCore.Utilities\SampleAppCore.Utilities.csproj", "{4728EA98-A25D-47FC-891F-7A55665BA249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppCore.Utilities", "SampleAppCore.Utilities\SampleAppCore.Utilities.csproj", "{4728EA98-A25D-47FC-891F-7A55665BA249}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAppCore.Infrastructure", "SampleAppCore.Infrastructure\SampleAppCore.Infrastructure.csproj", "{A3F29DDE-0C3E-475E-9640-FBEEE178F0FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppCore.Infrastructure", "SampleAppCore.Infrastructure\SampleAppCore.Infrastructure.csproj", "{A3F29DDE-0C3E-475E-9640-FBEEE178F0FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAppCore.Data", "SampleAppCore.Data\SampleAppCore.Data.csproj", "{E190A56E-155A-4629-A166-A9D2F3ADE7B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppCore.Data", "SampleAppCore.Data\SampleAppCore.Data.csproj", "{E190A56E-155A-4629-A166-A9D2F3ADE7B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAppCore.Data.EF", "SampleAppCore.Data.EF\SampleAppCore.Data.EF.csproj", "{2E765607-BB90-4E91-B5C3-F0AF4ADA1087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppCore.Data.EF", "SampleAppCore.Data.EF\SampleAppCore.Data.EF.csproj", "{2E765607-BB90-4E91-B5C3-F0AF4ADA1087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleAppCore.Service", "SampleAppCore.Service\SampleAppCore.Service.csproj", "{5F2F23A6-A2B9-4F58-9C08-7EADDB6A4584}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleAppCore.Service", "SampleAppCore.Service\SampleAppCore.Service.csproj", "{5F2F23A6-A2B9-4F58-9C08-7EADDB6A4584}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{C27FBADD-DAD6-4FDD-BD50-8E039743E384}"
 EndProject
