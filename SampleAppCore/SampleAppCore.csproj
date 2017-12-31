@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-SampleAppCore-A240F081-3813-41E5-8377-7179122599AD</UserSecretsId>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
   </PropertyGroup>
 
 
@@ -29,5 +29,7 @@
     <ProjectReference Include="..\SampleAppCore.Service\SampleAppCore.Service.csproj" />
     <ProjectReference Include="..\SampleAppCore.Utilities\SampleAppCore.Utilities.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties tsconfig_1json__JSONSchema="http://json-schema.org/tsconfig" /></VisualStudio></ProjectExtensions>
 
 </Project>

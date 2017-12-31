@@ -1,0 +1,11 @@
+﻿{
+  "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true
+  },
+  "exclude": [ "wwwroot/lib", "node_module" ], //ignore lib folders, we will get IntelliSense via ATA
+  "typeAcquisition": {
+    "enable": true,
+    "include": [ "wwwroot/app" ]
+  }
+}

@@ -21,6 +21,8 @@ using SampleAppCore.Data.EF.Repositories;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using SampleAppCore.Helpers;
+using SampleAppCore.Infrastructure.Interfaces;
+using SampleAppCore.Data.Interfaces;
 
 namespace SampleAppCore
 {
@@ -77,15 +79,20 @@ namespace SampleAppCore
 
             services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
+            services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
+            services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
+
             // Repositories
             services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddTransient<IFunctionRepository, FunctionRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductTagRepository, ProductTagRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
 
             // Services
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IFunctionService, FunctionService>();
-
-            
+            services.AddTransient<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

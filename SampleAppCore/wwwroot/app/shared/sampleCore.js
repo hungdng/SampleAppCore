@@ -78,7 +78,8 @@
     dateTimeFormatJson: function (datetime) {
         if (datetime == null || datetime == '')
             return '';
-        var newdate = new Date(parseInt(datetime.substr(6)));
+        var str = datetime.substr(6);
+        var newdate = new Date((datetime));
         var month = newdate.getMonth() + 1;
         var day = newdate.getDate();
         var year = newdate.getFullYear();
@@ -127,9 +128,9 @@
         for (var i = 0; i < arr.length; i += 1) {
             var node = arr[i];
             node.children = [];
-            map[node.Id] = i; // use map to look-up the parents
-            if (node.ParentId !== null) {
-                arr[map[node.ParentId]].children.push(node);
+            map[node.id] = i; // use map to look-up the parents
+            if (node.parentId !== null) {
+                arr[map[node.parentId]].children.push(node);
             } else {
                 roots.push(node);
             }
