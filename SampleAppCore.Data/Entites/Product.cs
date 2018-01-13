@@ -1,5 +1,5 @@
 ﻿using SampleAppCore.Data.Enums;
-using SampleAppCore.Data.Interfaces;
+using SampleAppCore.Data.IRepositories;
 using SampleAppCore.Infrastructure.SharedKernel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

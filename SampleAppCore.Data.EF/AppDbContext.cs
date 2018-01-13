@@ -14,7 +14,7 @@ using System.IO;
 using SampleAppCore.Data.Entites;
 using SampleAppCore.Data.EF.Extentions;
 using SampleAppCore.Data.EF.Configurations;
-using SampleAppCore.Data.Interfaces;
+using SampleAppCore.Data.IRepositories;
 
 namespace SampleAppCore.Data.EF
 {

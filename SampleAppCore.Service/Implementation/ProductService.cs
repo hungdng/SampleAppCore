@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using OfficeOpenXml;
 using SampleAppCore.Data.Entites;
 using SampleAppCore.Data.Enums;
-using SampleAppCore.Data.Interfaces;
 using SampleAppCore.Data.IRepositories;
 using SampleAppCore.Infrastructure.Interfaces;
 using SampleAppCore.Service.Interfaces;
@@ -12,8 +12,8 @@ using SampleAppCore.Utilities.Dtos;
 using SampleAppCore.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace SampleAppCore.Service.Implementation
 {
@@ -113,6 +113,44 @@ namespace SampleAppCore.Service.Implementation
         public ProductViewModel GetById(int id)
         {
             return Mapper.Map<Product, ProductViewModel>(_productRepository.FindById(id));
+        }
+
+        public void ImportExcel(string filePath, int categoryId)
+        {
+            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            {
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[1];
+                Product product;
+                for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+                {
+                    product = new Product();
+                    product.CategoryId = categoryId;
+                    product.Name = workSheet.Cells[i, 2].Value.ToString();
+
+                    decimal.TryParse(workSheet.Cells[i, 3].Value.ToString(), out var originalPrice);
+                    product.OriginalPrice = originalPrice;
+
+                    decimal.TryParse(workSheet.Cells[i, 4].Value.ToString(), out var price);
+                    product.Price = price;
+
+                    decimal.TryParse(workSheet.Cells[i, 5].Value.ToString(), out var promotionPrice);
+                    product.PromotionPrice = promotionPrice;
+
+                    product.Content = workSheet.Cells[i, 6].Value.ToString();
+                    product.SeoKeywords = workSheet.Cells[i, 7].Value.ToString();
+                    product.SeoDescription = workSheet.Cells[i, 8].Value.ToString();
+
+                    bool.TryParse(workSheet.Cells[i, 9].Value.ToString(), out var hotFlag);
+                    product.HotFlag = hotFlag;
+
+                    bool.TryParse(workSheet.Cells[i, 10].Value.ToString(), out var homeFlag);
+                    product.HomeFlag = homeFlag;
+
+                    product.Status = Status.Active;
+
+                    _productRepository.Add(product);
+                }
+            }
         }
 
         public void Save()

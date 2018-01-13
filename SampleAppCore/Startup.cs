@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SampleAppCore.Data;
-using SampleAppCore.Models;
 using SampleAppCore.Services;
 using SampleAppCore.Data.EF;
 using SampleAppCore.Data.Entites;
@@ -22,7 +17,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using SampleAppCore.Helpers;
 using SampleAppCore.Infrastructure.Interfaces;
-using SampleAppCore.Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using SampleAppCore.Authorization;
 
 namespace SampleAppCore
 {
@@ -88,11 +84,16 @@ namespace SampleAppCore
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductTagRepository, ProductTagRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
 
             // Services
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+
+            services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -19,7 +19,7 @@
     </div>
 
     <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right">
+        <div class="col-md-3 col-sm-5 col-xs-12 form-group pull-right">
 
             <div class="input-group">
                 <input type="text" id="txtKeyword" class="form-control" placeholder="Search for...">
@@ -28,11 +28,15 @@
                 </span>
             </div>
         </div>
-        <div class="col-md-4 col-sm-12  form-group pull-right">
-            <select class="form-control" id="ddlCategorySearch"></select>
+        <div class="col-md-3 col-sm-12  form-group pull-right">
+            <select class="form-control" id="ddlCategorySearch">
+                <option>--Select category--</option>
+            </select>
         </div>
-        <div class="col-md-2 col-sm-12  form-group pull-right">
+        <div class="col-md-6 col-sm-12  form-group pull-right">
             <button id="btnCreate" class="btn btn-success">Create</button>
+            <a class="btn btn-danger" href="~/templates/ProductImportTemplate.xlsx">Template</a>
+            <button class="btn btn-primary" id="btn-import" type="button">Import</button>
         </div>
     </div>
 </div>
@@ -42,9 +46,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-
             <div class="x_content">
-
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -59,7 +61,6 @@
                     </thead>
                     <tbody id="tbl-content"></tbody>
                 </table>
-
                 <!--Pagination-->
                 <div class="row">
                     <div class="col-sm-5">
@@ -81,12 +82,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
 <script id="table-template" type="x-tmpl-mustache">
     <tr>
         <th scope="row">
@@ -102,3 +101,4 @@
     </tr>
 </script>
 @Html.Partial("_AddEditModal.cshtml")
+@Html.Partial("_ImportExcelModal.cshtml")

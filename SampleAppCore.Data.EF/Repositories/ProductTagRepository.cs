@@ -1,5 +1,5 @@
 ﻿using SampleAppCore.Data.Entites;
-using SampleAppCore.Data.Interfaces;
+using SampleAppCore.Data.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Text;

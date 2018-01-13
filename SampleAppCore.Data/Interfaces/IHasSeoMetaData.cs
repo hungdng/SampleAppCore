@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SampleAppCore.Data.Interfaces
+namespace SampleAppCore.Data.IRepositories
 {
     public interface IHasSeoMetaData
     {

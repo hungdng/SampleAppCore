@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SampleAppCore.Data.Interfaces
+namespace SampleAppCore.Data.IRepositories
 {
-    public interface IProductTagRepository: IRepository<ProductTag, int>
+    public interface ITagRepository: IRepository<Tag, string>
     {
     }
 }
