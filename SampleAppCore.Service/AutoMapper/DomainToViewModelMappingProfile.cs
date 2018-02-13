@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SampleAppCore.Data.Entites;
+using SampleAppCore.Service.ViewModel;
 using SampleAppCore.Service.ViewModel.Product;
 using SampleAppCore.Service.ViewModel.System;
 using System;
@@ -18,6 +19,11 @@ namespace SampleAppCore.Service.AutoMapper
             CreateMap<Function, FunctionViewModel>();
             CreateMap<AppUser, AppUserViewModel>();
             CreateMap<AppRole, AppRoleViewModel>();
+            CreateMap<Bill, BillViewModel>();
+            CreateMap<BillDetail, BillDetailViewModel>();
+            CreateMap<Color, ColorViewModel>();
+            CreateMap<Size, SizeViewModel>();
+            CreateMap<ProductQuantity, ProductQuantityViewModel>().MaxDepth(2);
         }
     }
 }

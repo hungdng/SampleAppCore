@@ -26,6 +26,15 @@ namespace SampleAppCore.Service.AutoMapper
 
             CreateMap<PermissionViewModel, Permission>()
                 .ConstructUsing(c => new Permission(c.RoleId, c.FunctionId, c.CanCreate, c.CanDelete, c.CanRead, c.CanUpdate));
+
+            CreateMap<BillViewModel, Bill>()
+              .ConstructUsing(c => new Bill(c.Id, c.CustomerId, c.CustomerName,
+              c.CustomerAddress, c.CustomerMobile, c.CustomerMessage,
+              c.BillStatus, c.PaymentMethod, c.Status));
+
+            CreateMap<BillDetailViewModel, BillDetail>()
+              .ConstructUsing(c => new BillDetail(c.Id, c.BillId, c.ProductId,
+              c.Quantity, c.Price, c.ColorId, c.SizeId));
         }
     }
 }

@@ -85,6 +85,7 @@ namespace SampleAppCore.Data.EF
             builder.AddConfiguration(new FooterConfiguration());
             builder.AddConfiguration(new PageConfiguration());
             builder.AddConfiguration(new FooterConfiguration());
+            builder.AddConfiguration(new FunctionConfiguration());
             builder.AddConfiguration(new ProductTagConfiguration());
             builder.AddConfiguration(new SystemConfigConfiguration());
             builder.AddConfiguration(new AdvertistmentPositionConfiguration());

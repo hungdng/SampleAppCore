@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SampleAppCore.Data.EF.Migrations
 {
-    public partial class init : Migration
+    public partial class InitDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -233,7 +233,7 @@ namespace SampleAppCore.Data.EF.Migrations
                 name: "Functions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(type: "varchar(128)", nullable: false),
                     IconCss = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
                     ParentId = table.Column<string>(maxLength: 128, nullable: true),
@@ -417,7 +417,7 @@ namespace SampleAppCore.Data.EF.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BillStatus = table.Column<int>(nullable: false),
                     CustomerAddress = table.Column<string>(maxLength: 256, nullable: false),
-                    CustomerId = table.Column<Guid>(nullable: false),
+                    CustomerId = table.Column<Guid>(nullable: true),
                     CustomerMessage = table.Column<string>(maxLength: 256, nullable: false),
                     CustomerMoblie = table.Column<string>(maxLength: 50, nullable: false),
                     CustomerName = table.Column<string>(maxLength: 256, nullable: false),
@@ -434,7 +434,7 @@ namespace SampleAppCore.Data.EF.Migrations
                         column: x => x.CustomerId,
                         principalTable: "AppUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -447,7 +447,7 @@ namespace SampleAppCore.Data.EF.Migrations
                     CanDelete = table.Column<bool>(nullable: false),
                     CanRead = table.Column<bool>(nullable: false),
                     CanUpdate = table.Column<bool>(nullable: false),
-                    FunctionId = table.Column<string>(nullable: true),
+                    FunctionId = table.Column<string>(maxLength: 128, nullable: false),
                     RoleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -458,7 +458,7 @@ namespace SampleAppCore.Data.EF.Migrations
                         column: x => x.FunctionId,
                         principalTable: "Functions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Permissions_AppRoles_RoleId",
                         column: x => x.RoleId,

@@ -26,7 +26,7 @@ namespace SampleAppCore.Data.Entites
         [Required]
         public Guid RoleId { get; set; }
 
-        [StringLength(128)]
+        [MaxLength(128)]
         [Required]
         public string FunctionId { get; set; }
 

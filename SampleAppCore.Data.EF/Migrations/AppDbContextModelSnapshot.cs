@@ -290,7 +290,7 @@ namespace SampleAppCore.Data.EF.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<Guid>("CustomerId");
+                    b.Property<Guid?>("CustomerId");
 
                     b.Property<string>("CustomerMessage")
                         .IsRequired()
@@ -513,7 +513,8 @@ namespace SampleAppCore.Data.EF.Migrations
             modelBuilder.Entity("SampleAppCore.Data.Entites.Function", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("IconCss");
 
@@ -593,7 +594,9 @@ namespace SampleAppCore.Data.EF.Migrations
 
                     b.Property<bool>("CanUpdate");
 
-                    b.Property<string>("FunctionId");
+                    b.Property<string>("FunctionId")
+                        .IsRequired()
+                        .HasMaxLength(128);
 
                     b.Property<Guid>("RoleId");
 
@@ -918,8 +921,7 @@ namespace SampleAppCore.Data.EF.Migrations
                 {
                     b.HasOne("SampleAppCore.Data.Entites.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("SampleAppCore.Data.Entites.BillDetail", b =>
@@ -962,7 +964,8 @@ namespace SampleAppCore.Data.EF.Migrations
                 {
                     b.HasOne("SampleAppCore.Data.Entites.Function", "Function")
                         .WithMany()
-                        .HasForeignKey("FunctionId");
+                        .HasForeignKey("FunctionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SampleAppCore.Data.Entites.AppRole", "AppRole")
                         .WithMany()
@@ -1007,7 +1010,7 @@ namespace SampleAppCore.Data.EF.Migrations
             modelBuilder.Entity("SampleAppCore.Data.Entites.ProductTag", b =>
                 {
                     b.HasOne("SampleAppCore.Data.Entites.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductTags")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 

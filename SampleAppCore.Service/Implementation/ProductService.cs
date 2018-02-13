@@ -6,6 +6,7 @@ using SampleAppCore.Data.Enums;
 using SampleAppCore.Data.IRepositories;
 using SampleAppCore.Infrastructure.Interfaces;
 using SampleAppCore.Service.Interfaces;
+using SampleAppCore.Service.ViewModel;
 using SampleAppCore.Service.ViewModel.Product;
 using SampleAppCore.Utilities.Constants;
 using SampleAppCore.Utilities.Dtos;
@@ -19,17 +20,21 @@ namespace SampleAppCore.Service.Implementation
 {
     public class ProductService : IProductService
     {
-        private IProductRepository _productRepository;
-        private ITagRepository _tagRepository;
-        private IProductTagRepository _productTagRepository;
-        private IUnitOfWork _unitOfWork;
-        public ProductService(IProductRepository productRepository, 
+        IProductRepository _productRepository;
+        ITagRepository _tagRepository;
+        IProductTagRepository _productTagRepository;
+        IProductQuantityRepository _productQuantityRepository;
+
+        IUnitOfWork _unitOfWork;
+        public ProductService(IProductRepository productRepository,
             ITagRepository tagRepository,
-            IProductTagRepository productTagRepository,
-            IUnitOfWork unitOfWork)
+            IProductQuantityRepository productQuantityRepository,
+            IUnitOfWork unitOfWork,
+        IProductTagRepository productTagRepository)
         {
             _productRepository = productRepository;
             _tagRepository = tagRepository;
+            _productQuantityRepository = productQuantityRepository;
             _productTagRepository = productTagRepository;
             _unitOfWork = unitOfWork;
         }
@@ -43,7 +48,7 @@ namespace SampleAppCore.Service.Implementation
                 foreach (string t in tags)
                 {
                     var tagId = TextHelper.ToUnsignString(t);
-                    if (!_tagRepository.FindAll(x=>x.Id == tagId).Any())
+                    if (!_tagRepository.FindAll(x => x.Id == tagId).Any())
                     {
                         Tag tag = new Tag
                         {
@@ -66,8 +71,24 @@ namespace SampleAppCore.Service.Implementation
                     product.ProductTags.Add(productTag);
                 }
                 _productRepository.Add(product);
+
             }
             return productVm;
+        }
+
+        public void AddQuantity(int productId, List<ProductQuantityViewModel> quantities)
+        {
+            _productQuantityRepository.RemoveMultiple(_productQuantityRepository.FindAll(x => x.ProductId == productId).ToList());
+            foreach (var quantity in quantities)
+            {
+                _productQuantityRepository.Add(new ProductQuantity()
+                {
+                    ProductId = productId,
+                    ColorId = quantity.ColorId,
+                    SizeId = quantity.SizeId,
+                    Quantity = quantity.Quantity
+                });
+            }
         }
 
         public void Delete(int id)
@@ -97,6 +118,7 @@ namespace SampleAppCore.Service.Implementation
 
             query = query.OrderByDescending(x => x.DateCreated)
                 .Skip((page - 1) * pageSize).Take(pageSize);
+
             var data = query.ProjectTo<ProductViewModel>().ToList();
 
             var paginationSet = new PageResult<ProductViewModel>()
@@ -106,13 +128,17 @@ namespace SampleAppCore.Service.Implementation
                 RowCount = totalRow,
                 PageSize = pageSize
             };
-
             return paginationSet;
         }
 
         public ProductViewModel GetById(int id)
         {
             return Mapper.Map<Product, ProductViewModel>(_productRepository.FindById(id));
+        }
+
+        public List<ProductQuantityViewModel> GetQuantities(int productId)
+        {
+            return _productQuantityRepository.FindAll(x => x.ProductId == productId).ProjectTo<ProductQuantityViewModel>().ToList();
         }
 
         public void ImportExcel(string filePath, int categoryId)
@@ -125,24 +151,26 @@ namespace SampleAppCore.Service.Implementation
                 {
                     product = new Product();
                     product.CategoryId = categoryId;
-                    product.Name = workSheet.Cells[i, 2].Value.ToString();
+
+                    product.Name = workSheet.Cells[i, 1].Value.ToString();
+
+                    product.Description = workSheet.Cells[i, 2].Value.ToString();
 
                     decimal.TryParse(workSheet.Cells[i, 3].Value.ToString(), out var originalPrice);
                     product.OriginalPrice = originalPrice;
 
                     decimal.TryParse(workSheet.Cells[i, 4].Value.ToString(), out var price);
                     product.Price = price;
-
                     decimal.TryParse(workSheet.Cells[i, 5].Value.ToString(), out var promotionPrice);
-                    product.PromotionPrice = promotionPrice;
 
+                    product.PromotionPrice = promotionPrice;
                     product.Content = workSheet.Cells[i, 6].Value.ToString();
                     product.SeoKeywords = workSheet.Cells[i, 7].Value.ToString();
+
                     product.SeoDescription = workSheet.Cells[i, 8].Value.ToString();
-
                     bool.TryParse(workSheet.Cells[i, 9].Value.ToString(), out var hotFlag);
-                    product.HotFlag = hotFlag;
 
+                    product.HotFlag = hotFlag;
                     bool.TryParse(workSheet.Cells[i, 10].Value.ToString(), out var homeFlag);
                     product.HomeFlag = homeFlag;
 
@@ -168,7 +196,7 @@ namespace SampleAppCore.Service.Implementation
                 foreach (string t in tags)
                 {
                     var tagId = TextHelper.ToUnsignString(t);
-                    if (!_tagRepository.FindAll(x=>x.Id == tagId).Any())
+                    if (!_tagRepository.FindAll(x => x.Id == tagId).Any())
                     {
                         Tag tag = new Tag();
                         tag.Id = tagId;
@@ -183,14 +211,14 @@ namespace SampleAppCore.Service.Implementation
                     };
                     productTags.Add(productTag);
                 }
-
-                var product = Mapper.Map<ProductViewModel, Product>(productVm);
-                foreach (var productTag in productTags)
-                {
-                    product.ProductTags.Add(productTag);
-                }
-                _productRepository.Update(product);
             }
+
+            var product = Mapper.Map<ProductViewModel, Product>(productVm);
+            foreach (var productTag in productTags)
+            {
+                product.ProductTags.Add(productTag);
+            }
+            _productRepository.Update(product);
         }
     }
 }
