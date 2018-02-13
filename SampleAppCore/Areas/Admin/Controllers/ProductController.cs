@@ -123,6 +123,21 @@ namespace SampleAppCore.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public IActionResult SaveImages(int productId, string[] images)
+        {
+            _productService.AddImages(productId, images);
+            _productService.Save();
+            return new OkObjectResult(images);
+        }
+
+        [HttpGet]
+        public IActionResult GetImages(int productId)
+        {
+            var images = _productService.GetImages(productId);
+            return new OkObjectResult(images);
+        }
+
+        [HttpPost]
         public IActionResult ImportExcel(IList<IFormFile> files, int categoryId)
         {
             if (files != null && files.Count > 0)
