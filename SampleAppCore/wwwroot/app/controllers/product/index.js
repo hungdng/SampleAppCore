@@ -1,6 +1,7 @@
 ﻿var productController = function () {
     var quantityManagement = new QuantityManagement();
     var imageManagement = new ImageManagement();
+    var wholePriceManagement = new WholePriceManagement();
 
     this.initialize = function () {
         loadCategories();
@@ -9,6 +10,7 @@
         registerControls();
         quantityManagement.initialize();
         imageManagement.initialize();
+        wholePriceManagement.initialize();
     }
 
     function registerEvents() {
@@ -264,7 +266,7 @@
         $.ajax({
             type: "GET",
             url: "/Admin/Product/GetById",
-            data: { id: that },
+            data: { id: id },
             dataType: "json",
             beforeSend: function () {
                 sampleCore.startLoading();
@@ -407,15 +409,15 @@
                         Price: sampleCore.formatNumber(item.Price, 0),
                         CreatedDate: sampleCore.dateTimeFormatJson(item.DateCreated),
                         Status: sampleCore.getStatus(item.Status)
-                    });
-                    $('#lblTotalRecords').text(response.RowCount);
-                    if (render != '') {
-                        $('#tbl-content').html(render);
-                    }
-                    wrapPaging(response.RowCount, function () {
-                        loadData();
-                    }, isPageChanged);
+                    });                    
                 });
+                $('#lblTotalRecords').text(response.RowCount);
+                if (render != '') {
+                    $('#tbl-content').html(render);
+                }
+                wrapPaging(response.RowCount, function () {
+                    loadData();
+                }, isPageChanged);
             },
             error: function (status) {
                 console.log(status);

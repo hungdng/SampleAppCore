@@ -25,12 +25,14 @@ namespace SampleAppCore.Service.Implementation
         IProductTagRepository _productTagRepository;
         IProductQuantityRepository _productQuantityRepository;
         IProductImageRepository _productImageRepository;
+        IWholePriceRepository _wholePriceRepository;
 
         IUnitOfWork _unitOfWork;
         public ProductService(IProductRepository productRepository,
             ITagRepository tagRepository,
             IProductQuantityRepository productQuantityRepository,
             IProductImageRepository productImageRepository,
+             IWholePriceRepository wholePriceRepository,
             IUnitOfWork unitOfWork,
         IProductTagRepository productTagRepository)
         {
@@ -39,6 +41,7 @@ namespace SampleAppCore.Service.Implementation
             _productQuantityRepository = productQuantityRepository;
             _productTagRepository = productTagRepository;
             _productImageRepository = productImageRepository;
+            _wholePriceRepository = wholePriceRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -244,5 +247,26 @@ namespace SampleAppCore.Service.Implementation
             }
 
         }
+
+        public void AddWholePrice(int productId, List<WholePriceViewModel> wholePrices)
+        {
+            _wholePriceRepository.RemoveMultiple(_wholePriceRepository.FindAll(x => x.ProductId == productId).ToList());
+            foreach (var wholePrice in wholePrices)
+            {
+                _wholePriceRepository.Add(new WholePrice()
+                {
+                    ProductId = productId,
+                    FromQuantity = wholePrice.FromQuantity,
+                    ToQuantity = wholePrice.ToQuantity,
+                    Price = wholePrice.Price
+                });
+            }
+        }
+
+        public List<WholePriceViewModel> GetWholePrices(int productId)
+        {
+            return _wholePriceRepository.FindAll(x => x.ProductId == productId).ProjectTo<WholePriceViewModel>().ToList();
+        }
+
     }
 }
