@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SampleAppCore.Extensions;
 using SampleAppCore.Models;
 
 namespace SampleAppCore.Controllers
@@ -12,6 +13,7 @@ namespace SampleAppCore.Controllers
     {
         public IActionResult Index()
         {
+            var email = User.GetSpecificClaim("Email");
             return View();
         }
 

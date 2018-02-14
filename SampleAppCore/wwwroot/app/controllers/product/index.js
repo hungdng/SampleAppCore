@@ -266,7 +266,7 @@
         $.ajax({
             type: "GET",
             url: "/Admin/Product/GetById",
-            data: { id: id },
+            data: { id: that },
             dataType: "json",
             beforeSend: function () {
                 sampleCore.startLoading();
@@ -409,7 +409,8 @@
                         Price: sampleCore.formatNumber(item.Price, 0),
                         CreatedDate: sampleCore.dateTimeFormatJson(item.DateCreated),
                         Status: sampleCore.getStatus(item.Status)
-                    });                    
+                    });
+
                 });
                 $('#lblTotalRecords').text(response.RowCount);
                 if (render != '') {
