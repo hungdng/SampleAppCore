@@ -15,6 +15,7 @@ using SampleAppCore.Models.AccountViewModels;
 using SampleAppCore.Services;
 using SampleAppCore.Data.Entites;
 using SampleAppCore.Data.Enums;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace SampleAppCore.Controllers
 {
@@ -220,6 +221,7 @@ namespace SampleAppCore.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [Route("register.html")]
+        [ValidateRecaptcha]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;

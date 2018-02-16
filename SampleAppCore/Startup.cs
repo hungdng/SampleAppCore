@@ -19,6 +19,7 @@ using SampleAppCore.Helpers;
 using SampleAppCore.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using SampleAppCore.Authorization;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 
 namespace SampleAppCore
 {
@@ -57,6 +58,12 @@ namespace SampleAppCore
 
                 // User settings
                 options.User.RequireUniqueEmail = true;
+            });
+
+            services.AddRecaptcha(new RecaptchaOptions()
+            {
+                SiteKey = Configuration["Recaptcha:SiteKey"],
+                SecretKey = Configuration["Recaptcha:SecretKey"]
             });
 
             // Add application services.
