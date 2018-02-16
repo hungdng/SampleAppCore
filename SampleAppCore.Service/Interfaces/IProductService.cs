@@ -1,4 +1,5 @@
 ﻿using SampleAppCore.Service.ViewModel;
+using SampleAppCore.Service.ViewModel.Common;
 using SampleAppCore.Service.ViewModel.Product;
 using SampleAppCore.Utilities.Dtos;
 using System;
@@ -41,5 +42,11 @@ namespace SampleAppCore.Service.Interfaces
         List<ProductViewModel> GetLastest(int top);
 
         List<ProductViewModel> GetHotProduct(int top);
+
+        List<ProductViewModel> GetRelatedProducts(int id, int top);
+
+        List<ProductViewModel> GetUpsellProducts(int top);
+
+        List<TagViewModel> GetProductTags(int productId);
     }
 }
