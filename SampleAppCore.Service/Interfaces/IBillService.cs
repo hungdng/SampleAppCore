@@ -12,13 +12,14 @@ namespace SampleAppCore.Service.Interfaces
         void Create(BillViewModel billVm);
         void Update(BillViewModel billVm);
 
-        PageResult<BillViewModel> GetAllPaging(string startDate, String endDate, string keyword, int pageIndex, int pageSize);
+        PageResult<BillViewModel> GetAllPaging(string startDate, string endDate, string keyword,
+            int pageIndex, int pageSize);
 
         BillViewModel GetDetail(int billId);
 
-        BillDetailViewModel GetBillDetil(BillDetailViewModel billDetailVM);
+        BillDetailViewModel CreateDetail(BillDetailViewModel billDetailVm);
 
-        void DeleteDetail(int productId, int billId, int colorId, int SizeId);
+        void DeleteDetail(int productId, int billId, int colorId, int sizeId);
 
         void UpdateStatus(int orderId, BillStatus status);
 
@@ -27,6 +28,10 @@ namespace SampleAppCore.Service.Interfaces
         List<ColorViewModel> GetColors();
 
         List<SizeViewModel> GetSizes();
+
+        ColorViewModel GetColor(int id);
+
+        SizeViewModel GetSize(int id);
 
         void Save();
     }

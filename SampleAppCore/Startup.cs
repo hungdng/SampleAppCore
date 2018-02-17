@@ -66,6 +66,11 @@ namespace SampleAppCore
                 SecretKey = Configuration["Recaptcha:SecretKey"]
             });
 
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+            });
+
             // Add application services.
             services.AddAutoMapper();
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
@@ -136,6 +141,8 @@ namespace SampleAppCore
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

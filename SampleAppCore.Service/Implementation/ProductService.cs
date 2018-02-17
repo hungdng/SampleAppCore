@@ -33,16 +33,16 @@ namespace SampleAppCore.Service.Implementation
             ITagRepository tagRepository,
             IProductQuantityRepository productQuantityRepository,
             IProductImageRepository productImageRepository,
-             IWholePriceRepository wholePriceRepository,
-            IUnitOfWork unitOfWork,
+            IWholePriceRepository wholePriceRepository,
+        IUnitOfWork unitOfWork,
         IProductTagRepository productTagRepository)
         {
             _productRepository = productRepository;
             _tagRepository = tagRepository;
             _productQuantityRepository = productQuantityRepository;
             _productTagRepository = productTagRepository;
-            _productImageRepository = productImageRepository;
             _wholePriceRepository = wholePriceRepository;
+            _productImageRepository = productImageRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -248,7 +248,6 @@ namespace SampleAppCore.Service.Implementation
             }
 
         }
-
         public void AddWholePrice(int productId, List<WholePriceViewModel> wholePrices)
         {
             _wholePriceRepository.RemoveMultiple(_wholePriceRepository.FindAll(x => x.ProductId == productId).ToList());
@@ -321,5 +320,12 @@ namespace SampleAppCore.Service.Implementation
 
         }
 
+        public bool CheckAvailability(int productId, int size, int color)
+        {
+            var quantity = _productQuantityRepository.FindSingle(x => x.ColorId == color && x.SizeId == size && x.ProductId == productId);
+            if (quantity == null)
+                return false;
+            return quantity.Quantity > 0;
+        }
     }
 }

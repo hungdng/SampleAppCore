@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using SampleAppCore.Models.ProductViewModels;
 using SampleAppCore.Service.Interfaces;
@@ -12,19 +13,23 @@ namespace SampleAppCore.Controllers
     public class ProductController : Controller
     {
         IProductService _productService;
+        IBillService _billService;
         IProductCategoryService _productCategoryService;
         IConfiguration _configuration;
         public ProductController(IProductService productService, IConfiguration configuration,
+            IBillService billService,
             IProductCategoryService productCategoryService)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;
             _configuration = configuration;
+            _billService = billService;
         }
         [Route("products.html")]
         public IActionResult Index()
         {
-            return View();
+            var categories = _productCategoryService.GetAll();
+            return View(categories);
         }
 
         [Route("{alias}-c.{id}.html")]
@@ -43,19 +48,6 @@ namespace SampleAppCore.Controllers
             return View(catalog);
         }
 
-        [Route("{alias}-p.{id}.html", Name = "ProductDetail")]
-        public IActionResult Details(int id)
-        {
-            ViewData["BodyClass"] = "product-page";
-            var model = new DetailViewModel();
-            model.Product = _productService.GetById(id);
-            model.Category = _productCategoryService.GetById(model.Product.CategoryId);
-            model.RelatedProducts = _productService.GetRelatedProducts(id, 9);
-            model.UpsellProducts = _productService.GetUpsellProducts(6);
-            model.ProductImages = _productService.GetImages(id);
-            model.Tags = _productService.GetProductTags(id);
-            return View(model);
-        }
 
         [Route("search.html")]
         public IActionResult Search(string keyword, int? pageSize, string sortBy, int page = 1)
@@ -71,6 +63,31 @@ namespace SampleAppCore.Controllers
             catalog.Keyword = keyword;
 
             return View(catalog);
+        }
+
+        [Route("{alias}-p.{id}.html", Name = "ProductDetail")]
+        public IActionResult Details(int id)
+        {
+            ViewData["BodyClass"] = "product-page";
+            var model = new DetailViewModel();
+            model.Product = _productService.GetById(id);
+            model.Category = _productCategoryService.GetById(model.Product.CategoryId);
+            model.RelatedProducts = _productService.GetRelatedProducts(id, 9);
+            model.UpsellProducts = _productService.GetUpsellProducts(6);
+            model.ProductImages = _productService.GetImages(id);
+            model.Tags = _productService.GetProductTags(id);
+            model.Colors = _billService.GetColors().Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+            model.Sizes = _billService.GetSizes().Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+
+            return View(model);
         }
 
     }

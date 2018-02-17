@@ -1,4 +1,5 @@
-﻿using SampleAppCore.Service.ViewModel.Common;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SampleAppCore.Service.ViewModel.Common;
 using SampleAppCore.Service.ViewModel.Product;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace SampleAppCore.Models.ProductViewModels
     {
         public ProductViewModel Product { get; set; }
 
+        public bool Available { set; get; }
+
         public List<ProductViewModel> RelatedProducts { get; set; }
 
         public ProductCategoryViewModel Category { get; set; }
@@ -22,5 +25,9 @@ namespace SampleAppCore.Models.ProductViewModels
         public List<ProductViewModel> LastestProducts { get; set; }
 
         public List<TagViewModel> Tags { set; get; }
+
+        public List<SelectListItem> Colors { set; get; }
+
+        public List<SelectListItem> Sizes { set; get; }
     }
 }
