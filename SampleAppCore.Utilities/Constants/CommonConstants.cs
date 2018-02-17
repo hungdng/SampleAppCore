@@ -7,6 +7,7 @@ namespace SampleAppCore.Utilities.Constants
     public class CommonConstants
     {
         public const string DefaultFooterId = "DefaultFooterId";
+        public const string DefaultContactId = "default";
 
         public const string CartSession = "CartSession";
 

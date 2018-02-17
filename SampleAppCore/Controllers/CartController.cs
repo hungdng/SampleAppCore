@@ -95,10 +95,9 @@ namespace SampleAppCore.Controllers
 
                         _billService.Save();
 
-                        // fix sau
-                        // var content = await _viewRenderService.RenderToStringAsync("Cart/_BillMail", billViewModel);
+                         var content = await _viewRenderService.RenderToStringAsync("Cart/_BillMail", billViewModel);
                         //Send mail
-                        // await _emailSender.SendEmailAsync(_configuration["MailSettings:AdminMail"], "New bill from HungTA Shop", "hêlo");
+                         await _emailSender.SendEmailAsync(_configuration["MailSettings:AdminMail"], "New bill from HungTA Shop", content);
                         HttpContext.Session.Remove(CommonConstants.CartSession);
                         ViewData["Success"] = true;
                     }

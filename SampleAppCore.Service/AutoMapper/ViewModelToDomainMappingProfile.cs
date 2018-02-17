@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SampleAppCore.Data.Entites;
+using SampleAppCore.Service.ViewModel.Common;
 using SampleAppCore.Service.ViewModel.Product;
 using SampleAppCore.Service.ViewModel.System;
 using System;
@@ -35,6 +36,12 @@ namespace SampleAppCore.Service.AutoMapper
             CreateMap<BillDetailViewModel, BillDetail>()
               .ConstructUsing(c => new BillDetail(c.Id, c.BillId, c.ProductId,
               c.Quantity, c.Price, c.ColorId, c.SizeId));
+
+            CreateMap<ContactViewModel, Contact>()
+                .ConstructUsing(c => new Contact(c.Id, c.Name, c.Phone, c.Email, c.Website, c.Address, c.Other, c.Lng, c.Lat, c.Status));
+
+            CreateMap<FeedbackViewModel, Feedback>()
+                .ConstructUsing(c => new Feedback(c.Id, c.Name, c.Email, c.Message, c.Status));
         }
     }
 }
