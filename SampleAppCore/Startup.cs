@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authorization;
 using SampleAppCore.Authorization;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using SampleAppCore.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SampleAppCore
 {
@@ -43,6 +44,8 @@ namespace SampleAppCore
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddMemoryCache();
 
             // configura Identity
             services.Configure<IdentityOptions>(options => {
@@ -87,7 +90,21 @@ namespace SampleAppCore
 
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
 
-            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddMvc(options =>
+            {
+                options.CacheProfiles.Add("Default",
+                    new CacheProfile()
+                    {
+                        Duration = 60
+                    });
+                options.CacheProfiles.Add("Never",
+                    new CacheProfile()
+                    {
+                        Location = ResponseCacheLocation.None,
+                        NoStore = true
+                    });
+            })
+            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
