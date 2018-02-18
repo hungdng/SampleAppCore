@@ -20,6 +20,7 @@ using SampleAppCore.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using SampleAppCore.Authorization;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
+using SampleAppCore.Extensions;
 
 namespace SampleAppCore
 {
@@ -142,6 +143,7 @@ namespace SampleAppCore
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseImageResizer();
 
             app.UseStaticFiles();
 
