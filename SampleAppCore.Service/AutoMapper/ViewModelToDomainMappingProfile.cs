@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SampleAppCore.Data.Entites;
+using SampleAppCore.Service.ViewModel.Blog;
 using SampleAppCore.Service.ViewModel.Common;
 using SampleAppCore.Service.ViewModel.Product;
 using SampleAppCore.Service.ViewModel.System;
@@ -42,6 +43,9 @@ namespace SampleAppCore.Service.AutoMapper
 
             CreateMap<FeedbackViewModel, Feedback>()
                 .ConstructUsing(c => new Feedback(c.Id, c.Name, c.Email, c.Message, c.Status));
+
+            CreateMap<PageViewModel, Page>()
+             .ConstructUsing(c => new Page(c.Id, c.Name, c.Alias, c.Content, c.Status));
         }
     }
 }

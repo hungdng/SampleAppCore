@@ -148,6 +148,7 @@ namespace SampleAppCore
             services.AddTransient<IFooterRepository, FooterRepository>();
             services.AddTransient<IFeedbackRepository, FeedbackRepository>();
             services.AddTransient<IContactRepository, ContactRepository>();
+            services.AddTransient<IPageRepository, PageRepository>();
 
             // Services
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
@@ -160,6 +161,7 @@ namespace SampleAppCore
             services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<IPageService, PageService>();
 
             services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
         }
@@ -183,7 +185,7 @@ namespace SampleAppCore
             app.UseStaticFiles();
 
             // Add User Min response
-            app.UseMinResponse();
+            // app.UseMinResponse();
 
             app.UseAuthentication();
 
