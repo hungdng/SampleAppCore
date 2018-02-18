@@ -75,6 +75,9 @@ namespace SampleAppCore
                 options.Cookie.HttpOnly = true;
             });
 
+            // Add min Response
+            services.AddMinResponse();
+
             // Add application services.
             services.AddAutoMapper();
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
@@ -163,6 +166,9 @@ namespace SampleAppCore
             app.UseImageResizer();
 
             app.UseStaticFiles();
+
+            // Add User Min response
+            app.UseMinResponse();
 
             app.UseAuthentication();
 
