@@ -48,7 +48,8 @@ namespace SampleAppCore
             services.AddMemoryCache();
 
             // configura Identity
-            services.Configure<IdentityOptions>(options => {
+            services.Configure<IdentityOptions>(options =>
+            {
                 // Pasword settings
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
@@ -70,7 +71,8 @@ namespace SampleAppCore
                 SecretKey = Configuration["Recaptcha:SecretKey"]
             });
 
-            services.AddSession(options => {
+            services.AddSession(options =>
+            {
                 options.IdleTimeout = TimeSpan.FromHours(2);
                 options.Cookie.HttpOnly = true;
             });
@@ -80,6 +82,19 @@ namespace SampleAppCore
 
             // Add application services.
             services.AddAutoMapper();
+
+            services.AddAuthentication()
+                .AddFacebook(facebookOpts =>
+                {
+                    facebookOpts.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOpts.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                })
+                .AddGoogle(googleOpts =>
+                {
+                    googleOpts.ClientId = Configuration["Authentication:Google:ClientId"];
+                    googleOpts.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                });
+
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 

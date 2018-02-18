@@ -311,7 +311,7 @@ namespace SampleAppCore.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+                return View("ExternalLogin", new ExternalLoginViewModel ());
             }
         }
 
@@ -328,7 +328,16 @@ namespace SampleAppCore.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new AppUser { UserName = model.Email, Email = model.Email };
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                
+                var user = new AppUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FullName = model.FullName,
+                    BirthDay = DateTime.Parse(model.DOB),
+                    PhoneNumber = model.PhoneNumber
+                };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
