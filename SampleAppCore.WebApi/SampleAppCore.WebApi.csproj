@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SampleAppCore.Data.EF\SampleAppCore.Data.EF.csproj" />
+    <ProjectReference Include="..\SampleAppCore.Data\SampleAppCore.Data.csproj" />
+    <ProjectReference Include="..\SampleAppCore.Infrastructure\SampleAppCore.Infrastructure.csproj" />
+    <ProjectReference Include="..\SampleAppCore.Service.Dapper\SampleAppCore.Service.Dapper.csproj" />
+    <ProjectReference Include="..\SampleAppCore.Service\SampleAppCore.Service.csproj" />
+    <ProjectReference Include="..\SampleAppCore.Utilities\SampleAppCore.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>
