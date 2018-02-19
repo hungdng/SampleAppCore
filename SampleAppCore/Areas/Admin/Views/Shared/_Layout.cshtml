@@ -31,7 +31,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                        <a href="/admin/home" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -131,7 +131,7 @@
                                         <a>
                                             <span class="image"><img src="/admin-side/images/img.jpg" alt="Profile Image" /></span>
                                             <span>
-                                                <span>John Smith</span>
+                                                <span>@User.GetSpecificClaim("FullName")</span>
                                                 <span class="time">3 mins ago</span>
                                             </span>
                                             <span class="message">
@@ -175,45 +175,34 @@
     <!-- jQuery -->
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <!-- Bootstrap -->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <!-- FastClick -->
     <script src="~/lib/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="~/lib/nprogress/nprogress.js"></script>
     <!-- Chart.js -->
-    <script src="~/lib/Chart.js/dist/Chart.js"></script>
     <script src="~/lib/mustache/mustache.js"></script>
-    <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
+
+    <script src="~/lib/Chart.js/dist/Chart.js"></script>
     <!-- jQuery Sparklines -->
+    <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
     <script src="~/lib/jquery-sparkline/dist/jquery.sparkline.js"></script>
-    <!-- Flot -->
-    @*<script src="~/lib/flot/jquery.flot.js"></script>
-        <script src="../vendors/Flot/jquery.flot.pie.js"></script>
-        <script src="../vendors/Flot/jquery.flot.time.js"></script>
-        <script src="../vendors/Flot/jquery.flot.stack.js"></script>
-        <script src="../vendors/Flot/jquery.flot.resize.js"></script>*@
-    <!-- Flot plugins -->
-    @*<script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-        <script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-        <script src="../vendors/flot.curvedlines/curvedLines.js"></script>*@
-    <!-- DateJS -->
-    @*<script src="../vendors/DateJS/build/date.js"></script>*@
-    <!-- bootstrap-daterangepicker -->
-    <script src="~/lib/moment/moment.js"></script>
-    <link href="~/lib/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
-    <script src="~/lib/notifyjs/dist/notify.js"></script>
-    <script src="~/lib/notifyjs/dist/styles/metro/notify-metro.js"></script>
-    <script src="~/lib/bootbox/bootbox.js"></script>
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/ckeditor/ckeditor.js"></script>
 
-    <script src="~/app/shared/sampleCore.js" asp-append-version="true"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/lib/moment/moment.js"></script>
+    <script src="~/lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/notifyjs/dist/notify.js"></script>
+    <script src="~/lib/notifyjs/dist/styles/metro/notify-metro.js"></script>
+    <script src="~/lib/bootbox/bootbox.js"></script>
+
+    <script src="~/app/shared/sampleCore.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="~/admin-side/js/custom.js"></script>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

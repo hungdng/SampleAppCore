@@ -22,6 +22,8 @@ using SampleAppCore.Authorization;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using SampleAppCore.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using SampleAppCore.Service.Dapper.Interfaces;
+using SampleAppCore.Service.Dapper.Implementation;
 
 namespace SampleAppCore
 {
@@ -162,6 +164,7 @@ namespace SampleAppCore
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<IPageService, PageService>();
+            services.AddTransient<IReportService, ReportService>();
 
             services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
         }

@@ -33,6 +33,7 @@
     <ProjectReference Include="..\SampleAppCore.Data.EF\SampleAppCore.Data.EF.csproj" />
     <ProjectReference Include="..\SampleAppCore.Data\SampleAppCore.Data.csproj" />
     <ProjectReference Include="..\SampleAppCore.Infrastructure\SampleAppCore.Infrastructure.csproj" />
+    <ProjectReference Include="..\SampleAppCore.Service.Dapper\SampleAppCore.Service.Dapper.csproj" />
     <ProjectReference Include="..\SampleAppCore.Service\SampleAppCore.Service.csproj" />
     <ProjectReference Include="..\SampleAppCore.Utilities\SampleAppCore.Utilities.csproj" />
   </ItemGroup>
