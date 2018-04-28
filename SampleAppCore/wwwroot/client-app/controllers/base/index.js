@@ -17,7 +17,7 @@
                     size: 0
                 },
                 success: function (response) {
-                    sampleCore.notify('The product was added to cart', 'success');
+                    sampleCore.notify(resources["AddCartOK"], 'success');
                     loadHeaderCart();
                 }
             });
@@ -33,7 +33,7 @@
                     productId: id
                 },
                 success: function (response) {
-                    sampleCore.notify('The product was removed', 'success');
+                    sampleCore.notify(resources["RemoveCartOK"], 'success');
                     loadHeaderCart();
                 }
             });

@@ -7,6 +7,10 @@
     "gulp-concat": "2.6.1",
     "gulp-cssmin": "0.1.7",
     "gulp-uglify": "2.0.1",
-    "rimraf": "2.6.1"
+    "rimraf": "2.6.1",
+    "typings": "^2.1.1"
+  },
+  "scripts": {
+    "postinstall": "typings install"
   }
 }

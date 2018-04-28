@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using SampleAppCore.Data.EF;
+using SampleAppCore;
 
 namespace SampleAppCore
 {

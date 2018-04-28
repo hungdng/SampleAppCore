@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -7,21 +8,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SampleAppCore.Services;
 using SampleAppCore.Data.EF;
-using SampleAppCore.Data.Entites;
 using AutoMapper;
-using SampleAppCore.Service.Interfaces;
-using SampleAppCore.Data.IRepositories;
-using SampleAppCore.Service.Implementation;
-using SampleAppCore.Data.EF.Repositories;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using SampleAppCore.Extensions;
+using SampleAppCore.Data.Entites;
 using SampleAppCore.Helpers;
 using SampleAppCore.Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using SampleAppCore.Data.EF.Repositories;
+using SampleAppCore.Data.IRepositories;
+using SampleAppCore.Service.Interfaces;
+using SampleAppCore.Service.Implementation;
 using SampleAppCore.Authorization;
-using PaulMiami.AspNetCore.Mvc.Recaptcha;
-using SampleAppCore.Extensions;
-using Microsoft.AspNetCore.Mvc;
 using SampleAppCore.Service.Dapper.Interfaces;
 using SampleAppCore.Service.Dapper.Implementation;
 
@@ -49,10 +54,12 @@ namespace SampleAppCore
 
             services.AddMemoryCache();
 
-            // configura Identity
+            services.AddMinResponse();
+
+            // Configure Identity
             services.Configure<IdentityOptions>(options =>
             {
-                // Pasword settings
+                // Password settings
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
@@ -78,25 +85,19 @@ namespace SampleAppCore
                 options.IdleTimeout = TimeSpan.FromHours(2);
                 options.Cookie.HttpOnly = true;
             });
-
-            // Add min Response
-            services.AddMinResponse();
-
-            // Add application services.
+            services.AddImageResizer();
             services.AddAutoMapper();
-
             services.AddAuthentication()
                 .AddFacebook(facebookOpts =>
                 {
                     facebookOpts.AppId = Configuration["Authentication:Facebook:AppId"];
                     facebookOpts.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 })
-                .AddGoogle(googleOpts =>
-                {
+                .AddGoogle(googleOpts => {
                     googleOpts.ClientId = Configuration["Authentication:Google:ClientId"];
                     googleOpts.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 });
-
+            // Add application services.
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
@@ -123,18 +124,39 @@ namespace SampleAppCore
                         Location = ResponseCacheLocation.None,
                         NoStore = true
                     });
-            })
-            .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            }).AddViewLocalization(
+                    LanguageViewLocationExpanderFormat.Suffix,
+                    opts => { opts.ResourcesPath = "Resources"; })
+                .AddDataAnnotationsLocalization()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
+
+            services.Configure<RequestLocalizationOptions>(
+              opts =>
+              {
+                  var supportedCultures = new List<CultureInfo>
+                  {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("vi-VN")
+                  };
+
+                  opts.DefaultRequestCulture = new RequestCulture("en-US");
+                  // Formatting numbers, dates, etc.
+                  opts.SupportedCultures = supportedCultures;
+                  // UI strings that we have localized.
+                  opts.SupportedUICultures = supportedCultures;
+              });
 
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
 
-            // Repositories
+            //Repositories
             services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddTransient<IFunctionRepository, FunctionRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IProductTagRepository, ProductTagRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IProductTagRepository, ProductTagRepository>();
             services.AddTransient<IPermissionRepository, PermissionRepository>();
             services.AddTransient<IBillRepository, BillRepository>();
             services.AddTransient<IBillDetailRepository, BillDetailRepository>();
@@ -143,16 +165,19 @@ namespace SampleAppCore
             services.AddTransient<IProductQuantityRepository, ProductQuantityRepository>();
             services.AddTransient<IProductImageRepository, ProductImageRepository>();
             services.AddTransient<IWholePriceRepository, WholePriceRepository>();
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
+            services.AddTransient<IContactRepository, ContactRepository>();
             services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IPageRepository, PageRepository>();
+
             services.AddTransient<IBlogTagRepository, BlogTagRepository>();
             services.AddTransient<ISlideRepository, SlideRepository>();
             services.AddTransient<ISystemConfigRepository, SystemConfigRepository>();
-            services.AddTransient<IFooterRepository, FooterRepository>();
-            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
-            services.AddTransient<IContactRepository, ContactRepository>();
-            services.AddTransient<IPageRepository, PageRepository>();
 
-            // Services
+            services.AddTransient<IFooterRepository, FooterRepository>();
+
+
+            //Serrvices
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<IProductService, ProductService>();
@@ -167,6 +192,8 @@ namespace SampleAppCore
             services.AddTransient<IReportService, ReportService>();
 
             services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -184,15 +211,13 @@ namespace SampleAppCore
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseImageResizer();
-
             app.UseStaticFiles();
-
-            // Add User Min response
-            // app.UseMinResponse();
-
+            app.UseMinResponse();
             app.UseAuthentication();
-
             app.UseSession();
+
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
 
             app.UseMvc(routes =>
             {
@@ -202,7 +227,10 @@ namespace SampleAppCore
 
                 routes.MapRoute(name: "areaRoute",
                     template: "{area:exists}/{controller=Login}/{action=Index}/{id?}");
+
+
             });
+
         }
     }
 }

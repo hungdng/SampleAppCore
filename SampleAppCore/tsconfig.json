@@ -1,11 +1,33 @@
 ﻿{
   "compilerOptions": {
-    "allowJs": true,
+    "target": "es6",
+    "module": "system",
+    "moduleResolution": "node",
+    "allowJs": false,
     "noEmit": true
   },
+  "include": ["index.ts"],
   "exclude": [ "wwwroot/lib", "node_module" ], //ignore lib folders, we will get IntelliSense via ATA
   "typeAcquisition": {
     "enable": true,
     "include": [ "wwwroot/app" ]
   }
 }
+
+//{
+//  "compileOnSave": true,
+//  "compilerOptions": {
+//    "noImplicitAny": false,
+//    "noEmitOnError": true,
+//    "sourceMap": true,
+//    "target": "es2015",
+//    "module": "amd",
+//    "allowJs": false,
+//    "allowSyntheticDefaultImports": true
+//  },
+//  "exclude": [
+//    "wwwroot/lib",
+//    "node_modules"
+//  ]
+//}
+
